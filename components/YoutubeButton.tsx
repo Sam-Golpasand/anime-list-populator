@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function youtubeButton() {
+export default function youtubeButton(props: any) {
   const styles = `
     .Btn {
       width: 45px;
@@ -57,6 +57,7 @@ export default function youtubeButton() {
   return (
     <>
       <style>{styles}</style>
+      <a href={`https://www.youtube.com/watch?v=${props.videoId}`} target="_blank">
       <button className="Btn z-30">
         <span className="svgContainer">
           <svg
@@ -72,6 +73,7 @@ export default function youtubeButton() {
         </span>
         <span className="BG"></span>
       </button>
+      </a>
     </>
   )
 }
