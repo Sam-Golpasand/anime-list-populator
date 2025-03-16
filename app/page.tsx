@@ -17,10 +17,20 @@ export default function Home() {
       rotate: direction === "left" ? -45 : direction === "right" ? 45 : 0,
       opacity: 0,
       transition: { duration: 0.5 },
+      
     })
     setIsThrown(false);
+    controls.set({x: 0, y: 0, rotate: 0, scale: 0, opacity: 0})
+    controls.start(transition);
   }
 
+  const transition = {
+    duration: 2,
+    delay: 2,
+    opacity: 1,
+    scale: 1,
+    ease: [0, 0.71, 0.2, 1.01],
+  }
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.keyCode) {
@@ -55,6 +65,7 @@ export default function Home() {
       <div className="flex flex-col items-center">
         <motion.div 
         animate={controls}
+        transition={transition}
         initial={{ x: 0, y: 0, rotate: 0, opacity: 1 }}>
           <Card />
         </motion.div>
