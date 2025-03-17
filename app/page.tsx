@@ -23,10 +23,10 @@ type AnimeData = {
 export default function Home() {
   const controls = useAnimation();
   const [isThrown, setIsThrown] = useState(false);
-  const [animeList, setAnimeList] = useState<AnimeData[]>([]); // Initialize as an empty array
+  const [animeList, setAnimeList] = useState<AnimeData[]>([]); 
   const [loading, setLoading] = useState(false);
   const [animeNumber, setAnimeNumber] = useState(0);
-  const [page, setPage] = useState(1);  // Start at page 1
+  const [page, setPage] = useState(1); 
 
   async function fetchAnime(page: number, perPage: number) {
     if (loading) return;
@@ -85,56 +85,75 @@ export default function Home() {
     }
   }
 
-  // Increment page and fetch more anime
+  
   async function getMoreAnime() {
-    setPage((prevPage) => {
-      const newPage = prevPage + 1;
-      fetchAnime(newPage, 50);
-      return newPage;
-    });
+    setPage((prevPage) => prevPage + 1);
   }
 
   useEffect(() => {
-    fetchAnime(page, 50);  // Initial fetch
+    fetchAnime(page, 50);
   }, [page]);
 
   useEffect(() => {
-    console.log(animeList); // Check the updated anime list
+    console.log(animeList);
   }, [animeList]);
 
-  // Ensure anime number increments and fetch more anime if needed
-  async function delayedUpdateAnime() {
-    await new Promise(resolve => setTimeout(resolve, 440));
+  
+  function UpdateAnime() {
 
     setAnimeNumber((prevNumber) => {
       const nextNumber = prevNumber < animeList.length - 1 ? prevNumber + 1 : prevNumber;
       
-      // Fetch more anime if we reach the end of the current list
+      // TODO fetches multiple times when spamming buttons
       if (nextNumber === animeList.length - 1 && animeList.length % 50 === 0) {
-        getMoreAnime();
+        setTimeout(() => {
+          getMoreAnime();
+        }, 1000);
       }
       
       return nextNumber;
     });
   }
 
+  const waitForCard = () => new Promise<void>((resolve) => {
+    setTimeout(() => {
+      setIsThrown(false);
+      resolve();
+    }, 440);
+  });
+
+  async function throwCard (direction: any) {
+    setIsThrown(true);
+
+    await controls.start({
+      x: direction === "left" ? -500 : direction === "right" ? 500 : 0,
+      y: direction === "down" ? 500 : 0,
+      rotate: direction === "left" ? -45 : direction === "right" ? 45 : 0,
+      opacity: 0,
+      transition: { duration: 0.5 },
+    });
+
+    setIsThrown(false)
+    UpdateAnime();
+    controls.set({ x: 0, y: 0, rotate: 0, scale: 0, opacity: 0 });
+    await controls.start(transition);
+    
+  }
+
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = async (e: KeyboardEvent) => {
       switch (e.keyCode) {
         case 37: // Left arrow
           console.log('left');
-          throwCard("left");
-          delayedUpdateAnime();
+          throwCard("left")
           break;
         case 39: // Right arrow
           console.log('right');
           throwCard("right");
-          delayedUpdateAnime();
           break;
         case 40: // Down arrow
           console.log('down');
           throwCard("down");
-          delayedUpdateAnime();
           break;
         default:
           break;
@@ -156,21 +175,7 @@ export default function Home() {
     ease: [0, 0.71, 0.2, 1.01],
   };
 
-  async function throwCard(direction: any) {
-    setIsThrown(true);
 
-    await controls.start({
-      x: direction === "left" ? -500 : direction === "right" ? 500 : 0,
-      y: direction === "down" ? 500 : 0,
-      rotate: direction === "left" ? -45 : direction === "right" ? 45 : 0,
-      opacity: 0,
-      transition: { duration: 0.5 },
-    });
-
-    controls.set({ x: 0, y: 0, rotate: 0, scale: 0, opacity: 0 });
-    controls.start(transition);
-    setIsThrown(false);
-  }
 
   return (
     <div className="flex w-full h-screen justify-center items-center">
@@ -181,9 +186,9 @@ export default function Home() {
           initial={{ x: 0, y: 0, rotate: 0, opacity: 1 }}
         >
           {animeList && animeList.length > 0 ? (
-            <Card animeData={animeList[animeNumber]} />  // Pass a single anime object as the prop 'animeData'
+            <Card animeData={animeList[animeNumber]} />  
           ) : (
-            <p>Loading...</p>  // Show loading text while fetching data
+            <p>Loading...</p> 
           )}
         </motion.div>
       </div>
