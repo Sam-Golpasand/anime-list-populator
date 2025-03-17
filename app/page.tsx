@@ -73,7 +73,6 @@ export default function Home() {
     try {
       const response = await fetch(url, options);
       const data = await response.json();
-      console.log(data); // Check the fetched data
       if (data?.data?.Page?.media) {
         setAnimeList(prevData => [...prevData, ...data?.data?.Page?.media]);
       }
@@ -133,6 +132,14 @@ export default function Home() {
     
   }
 
+  const transition = {
+    duration: 2,
+    delay: 2,
+    opacity: 1,
+    scale: 1,
+    ease: [0, 0.71, 0.2, 1.01],
+  };
+
   useEffect(() => {
     const handleKeyDown = async (e: KeyboardEvent) => {
       switch (e.keyCode) {
@@ -159,16 +166,6 @@ export default function Home() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [controls, animeList]);
-
-  const transition = {
-    duration: 2,
-    delay: 2,
-    opacity: 1,
-    scale: 1,
-    ease: [0, 0.71, 0.2, 1.01],
-  };
-
-
 
   return (
     <div className="flex w-full h-screen justify-center items-center">
