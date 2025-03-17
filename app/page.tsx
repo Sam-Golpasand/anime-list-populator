@@ -115,13 +115,6 @@ export default function Home() {
     });
   }
 
-  const waitForCard = () => new Promise<void>((resolve) => {
-    setTimeout(() => {
-      setIsThrown(false);
-      resolve();
-    }, 440);
-  });
-
   async function throwCard (direction: any) {
     setIsThrown(true);
 
