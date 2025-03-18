@@ -71,14 +71,14 @@ export default function LoginPage() {
     <div className="flex min-h-screen bg-background text-foreground">
       <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12 lg:px-8">
         <div className="w-full max-w-sm">
-          <h3 className='text-muted-foreground text-sm mb-4'>EN DIGITAL LØSNING TIL DINE LÆRINGSPROBLEMER</h3>
-          <h2 className="text-3xl font-bold mb-6 text-left text-foreground">Log ind i din konto<span className='text-red-500'>.</span></h2>
-          <h3 className='text-muted-foreground text-sm my-4'>Mangler du en konto? <Link href="/signup" className='text-red-500'>Lav en her</Link></h3>
+          <h3 className='text-muted-foreground text-sm mb-4'>THE EASIEST WAY TO POPULATE YOUR ANIME LIST</h3>
+          <h2 className="text-3xl font-bold mb-6 text-left text-foreground">Log into your account<span className='text-red-500'>.</span></h2>
+          <h3 className='text-muted-foreground text-sm my-4'>Need an account? <Link href="/signup" className='text-red-500'>Make an account here</Link></h3>
           <form className="space-y-6" onSubmit={login}>
             <FloatingLabelInput value={email} onChange={(e: any) => setEmail(e.target.value)} label="Email" id="email"/>
             <FloatingLabelInput value={password} onChange={(e: any) => setPassword(e.target.value)} label="Password" id="password"/>
             <Button type="submit" className="w-full h-12 rounded-full bg-red-500 hover:bg-red-600 text-white">
-              Log ind
+              Log in
             </Button>
           </form>
         </div>
