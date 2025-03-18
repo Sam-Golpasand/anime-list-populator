@@ -93,10 +93,6 @@ export default function Home() {
     fetchAnime(page, 50);
   }, [page]);
 
-  useEffect(() => {
-    console.log(animeList);
-  }, [animeList]);
-
   
   function UpdateAnime() {
 
@@ -144,15 +140,12 @@ export default function Home() {
     const handleKeyDown = async (e: KeyboardEvent) => {
       switch (e.keyCode) {
         case 37: // Left arrow
-          console.log('left');
           throwCard("left")
           break;
         case 39: // Right arrow
-          console.log('right');
           throwCard("right");
           break;
         case 40: // Down arrow
-          console.log('down');
           throwCard("down");
           break;
         default:
